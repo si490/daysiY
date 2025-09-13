@@ -1,0 +1,276 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #000000;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+    font-size: clamp(2.5em, 6vw, 4.5em); /* h1 */
+font-size: clamp(0.8em, 2vw, 1.1em); /* .instruction */
+}
+
+.container {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.75); /* Más opaco */
+    padding: 35px 45px; /* Un poco más de padding */
+    border-radius: 18px; /* Bordes más suaves */
+    box-shadow: 0 0 70px rgba(255, 105, 180, 0.9); /* Sombra más intensa */
+    position: relative;
+    z-index: 5; /* Asegura que esté al frente */
+    max-width: 90%;
+    margin: 25px;
+    border: 3px solid #ff1493;
+}
+
+h1 {
+    color: #ffb6c1;
+    font-family: Arial, sans-serif;
+    font-size: clamp(2.5em, 6vw, 4.5em); /* Más grande y prominente */
+    margin-bottom: 18px;
+    text-shadow: 0 0 25px #ff69b4, 0 0 15px #ff1493;
+}
+
+.instruction {
+    color: #e0f2f7;
+    font-size: clamp(0.8em, 2vw, 1.1em); /* Más pequeño */
+    margin-bottom: 35px; /* Más espacio */
+    animation: pulseText 2s infinite ease-in-out;
+}
+
+/* --- Corazón interactivo (PERFECTO) --- */
+.heart-container {
+    position: relative;
+    width: 220px; /* Tamaño del corazón un poco más grande */
+    height: 200px;
+    margin: 0 auto 40px auto;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    transform-origin: center;
+    z-index: 6; /* Siempre al frente */
+}
+
+.heart-container:hover {
+    transform: scale(1.1); /* Responde más al hover */
+}
+
+.heart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg); /* Centrado y rotado */
+    width: 100%;
+    height: 100%;
+    background-color: #ff1493; /* Rosa intenso */
+    box-shadow: 0 0 40px rgba(255, 20, 147, 0.95), 0 0 80px rgba(255, 105, 180, 0.7); /* Brillo más fuerte */
+    border-radius: 5px; /* Bordes ligeramente redondeados para una mejor forma */
+    animation: heartBeatInteractive 1.5s infinite ease-in-out;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Pseudo-elementos para las mitades superiores del corazón */
+.heart::before,
+.heart::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #ff1493;
+    border-radius: 50%; /* Esto es clave para la forma redonda */
+    box-shadow: inherit;
+}
+
+.heart::before {
+    top: -50%;
+    left: 0;
+}
+
+.heart::after {
+    left: 50%;
+    top: 0;
+}
+
+/* Estado del corazón al ser clicado */
+.heart.clicked {
+    animation: none;
+    background-color: #ff69b4; /* Rosa medio al ser clicado */
+    transform: translate(-50%, -50%) scale(0.92) rotate(-45deg); /* Pequeña compresión */
+}
+
+/* --- Mensajes emergentes --- */
+.message-display {
+    min-height: 60px; /* Más espacio para mensajes más grandes */
+    color: #ffff00;
+    font-size: clamp(1.2em, 3.8vw, 2em); /* Más grande */
+    font-family: Arial, sans-serif;
+    margin-top: 30px;
+    text-shadow: 0 0 15px #ffef00, 0 0 8px #ffd700;
+    opacity: 0;
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    transform: translateY(15px);
+}
+
+.message-display.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Lluvia de nombres "Deysi" --- */
+.falling-name {
+    position: absolute;
+    color: #ffc0cb;
+    font-size: clamp(0.7em, 1.5vw, 1em);
+    font-family: Arial, sans-serif;
+    opacity: 0;
+    animation: fallAndFade 8s linear forwards;
+    pointer-events: none;
+    text-shadow: 0 0 5px rgba(255, 192, 203, 0.7);
+    z-index: 1;
+    white-space: nowrap;
+}
+
+/* --- Tulipanes que aparecen (más grandes, morados/rosados, brillando) --- */
+.tulip-bloom {
+    position: absolute;
+    width: 45px; /* Tamaño del tulipán más grande */
+    height: 60px;
+    /* Los background-image se asignarán con JS para alternar colores */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    transform: scale(0.2);
+    animation: bloomAndGlow 3s ease-out forwards;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* --- Estrellas flotantes --- */
+.star {
+    position: absolute;
+    color: #ffffff; /* Color blanco brillante */
+    font-size: clamp(0.5em, 1.2vw, 0.8em);
+    opacity: 0;
+    animation: floatStar 10s infinite ease-in-out;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    pointer-events: none;
+    z-index: 0; /* Detrás de todo */
+}
+
+
+/* Animaciones */
+@keyframes heartBeatInteractive {
+    0% { transform: translate(-50%, -50%) scale(1) rotate(-45deg); }
+    50% { transform: translate(-50%, -50%) scale(1.07) rotate(-45deg); } /* Latido más pronunciado */
+    100% { transform: translate(-50%, -50%) scale(1) rotate(-45deg); }
+}
+
+@keyframes pulseText {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; } /* Pulso más suave */
+}
+
+@keyframes fallAndFade {
+    0% {
+        transform: translateY(-20px) translateX(0);
+        opacity: 0;
+    }
+    10% { opacity: 1; }
+    90% { opacity: 0.8; }
+    100% {
+        transform: translateY(calc(100vh + 20px)) translateX(0);
+        opacity: 0;
+    }
+}
+
+@keyframes bloomAndGlow {
+    0% {
+        opacity: 0;
+        transform: scale(0.1) translateY(80px); /* Empieza más abajo */
+        filter: brightness(0.5);
+    }
+    30% {
+        opacity: 0.8;
+        transform: scale(0.8) translateY(30px); /* Sube hasta la mitad */
+        filter: brightness(1.5) drop-shadow(0 0 15px var(--tulip-glow-color)); /* Brillo intenso */
+    }
+    100% {
+        opacity: 0.6;
+        transform: scale(0.6) translateY(0); /* Termina un poco más abajo y pequeño */
+        filter: brightness(1) drop-shadow(0 0 8px var(--tulip-glow-color));
+    }
+}
+
+/* Animación de estrellas flotantes */
+@keyframes floatStar {
+    0% {
+        transform: translate(0, 0) scale(0.8);
+        opacity: 0;
+    }
+    15% { opacity: 0.7; }
+    85% { opacity: 0.6; }
+    100% {
+        transform: translate(calc(var(--randX) * 1px), calc(var(--randY) * 1px)) scale(1.2);
+        opacity: 0;
+    }
+}
+
+
+/* Adaptabilidad para teléfonos */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px 30px;
+        border-radius: 15px;
+    }
+
+    h1 {
+        font-size: 2.5em;
+    }
+
+    .instruction {
+        font-size: 0.9em;
+    }
+    
+
+    .heart-container {
+        width: 180px;
+        height: 160px;
+        margin: 25px auto;
+    }
+
+    .message-display {
+        font-size: 1.3em;
+    }
+    .tulip-bloom {
+        width: 35px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2em;
+    }
+
+    .instruction {
+        font-size: 0.8em;
+    }
+
+    .heart-container {
+        width: 150px;
+        height: 130px;
+        margin: 20px auto;
+    }
+
+    .message-display {
+        font-size: 1.1em;
+    }
+    .tulip-bloom {
+        width: 28px;
+        height: 40px;
+    }
+}
